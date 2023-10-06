@@ -7,6 +7,7 @@ class TicTacToe {
     #moveIndex = 0;
     #player1Score = 0;
     #player2Score = 0;
+    #gameStarted=false;
     constructor() {
         this.#board = new Array();
         this.#board.push(['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']);
@@ -17,7 +18,8 @@ class TicTacToe {
             this.#reset();
         });
         document.querySelector('.btn--play').addEventListener('click', () => {
-            this.#togglePlayerChoiceModal();
+           // this.#togglePlayerChoiceModal();
+           this.#startGame();
         });
         document.querySelector('.btn--yes').addEventListener('click', () => {
             this.#currentPlayer = 1; // Player 1 starts
@@ -33,10 +35,15 @@ class TicTacToe {
         // Add event listener for the game board
         const boardContainer = document.querySelector('.board');
         boardContainer.addEventListener('click', (event) => {
+            if(this.#gameStarted){
             this.#initializeClickListener(event);
+            }
         });
+    }  
+    #startGame() {
+        this.#gameStarted = true; // Start the game
+        this.#togglePlayerChoiceModal();
     }
-
     #initializeClickListener(event) {
         const cell = event.target;
         if (cell.classList.contains('cell') && cell.textContent === '-') {
@@ -163,6 +170,12 @@ class TicTacToe {
         this.#board.push(['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']);
         this.#moveIndex = 0;
         this.#currentPlayer = 1;
+        this.#gameStarted=false;
+        this.#enablePlayBtn();
+    }
+    #enablePlayBtn() {
+        const playBtn = document.querySelector('.btn--play');
+        playBtn.style.display = 'block'; // Show "Play" button
     }
 }
 
